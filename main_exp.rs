@@ -1,3 +1,4 @@
+// $t@$h
 use rustyline::error::ReadlineError;
 use rustyline::Editor;
 use std::collections::HashMap;
@@ -18,7 +19,7 @@ enum ExceptionLevel {
 
 type InstructionHandler = fn();
 
-// Original Instruction Handlers
+// Main Instruction Handlers
 fn add_handler() { println!("Executed ADD instruction"); }
 fn sub_handler() { println!("Executed SUB instruction"); }
 fn and_handler() { println!("Executed AND instruction"); }
@@ -47,7 +48,7 @@ fn mmv_handler() { println!("Executed MMV instruction"); }
 fn encrypt_handler() { println!("Executed ENCRYPT instruction"); }
 fn decrypt_handler() { println!("Executed DECRYPT instruction"); }
 
-// System-level Instruction Handlers
+// System Instruction Handlers
 fn init_trustzone() { println!("Initialized TrustZone in EL3"); }
 fn setup_virtualization() { println!("Set up virtualization in EL2"); }
 fn init_kernel() { println!("Kernel initialized in EL1"); }
@@ -60,39 +61,39 @@ fn main() {
     let mut instruction_map: HashMap<&str, InstructionHandler> = HashMap::new();
     let mut instruction_modes: HashMap<&str, Mode> = HashMap::new();
 
-    // Populate the instruction map with both original and system instructions
+    // Arm Instructions Simplified
     let instructions = [
-        ("ADD", add_handler, Mode::NonSecure),
-        ("SUB", sub_handler, Mode::NonSecure),
-        ("AND", and_handler, Mode::NonSecure),
-        ("ORR", orr_handler, Mode::NonSecure),
-        ("EOR", eor_handler, Mode::NonSecure),
-        ("B", b_handler, Mode::NonSecure),
-        ("BL", bl_handler, Mode::NonSecure),
-        ("CMP", cmp_handler, Mode::NonSecure),
-        ("CMN", cmn_handler, Mode::NonSecure),
-        ("MOV", mov_handler, Mode::NonSecure),
-        ("MVN", mvn_handler, Mode::NonSecure),
-        ("LDR", ldr_handler, Mode::NonSecure),
-        ("STR", str_handler, Mode::NonSecure),
-        ("VADD", vadd_handler, Mode::NonSecure),
-        ("VSUB", vsub_handler, Mode::NonSecure),
-        ("FADD", fadd_handler, Mode::NonSecure),
-        ("FSUB", fsub_handler, Mode::NonSecure),
-        ("FMUL", fmul_handler, Mode::NonSecure),
-        ("VMOV", vmov_handler, Mode::NonSecure),
-        ("SADD", sadd_handler, Mode::NonSecure),
-        ("SSUB", ssub_handler, Mode::NonSecure),
-        ("LD1", ld1_handler, Mode::NonSecure),
-        ("ST1", st1_handler, Mode::NonSecure),
-        ("MATMUL", matmul_handler, Mode::NonSecure),
-        ("MMV", mmv_handler, Mode::NonSecure),
-        ("encrypt", encrypt_handler, Mode::Secure),
-        ("decrypt", decrypt_handler, Mode::Secure),
-        ("init_trustzone", init_trustzone, Mode::Secure),
-        ("setup_virtualization", setup_virtualization, Mode::Secure),
-        ("init_kernel", init_kernel, Mode::Secure),
-        ("start_user_apps", start_user_apps, Mode::Secure),
+        ("ADD", add_handler as InstructionHandler, Mode::NonSecure),
+        ("SUB", sub_handler as InstructionHandler, Mode::NonSecure),
+        ("AND", and_handler as InstructionHandler, Mode::NonSecure),
+        ("ORR", orr_handler as InstructionHandler, Mode::NonSecure),
+        ("EOR", eor_handler as InstructionHandler, Mode::NonSecure),
+        ("B", b_handler as InstructionHandler, Mode::NonSecure),
+        ("BL", bl_handler as InstructionHandler, Mode::NonSecure),
+        ("CMP", cmp_handler as InstructionHandler, Mode::NonSecure),
+        ("CMN", cmn_handler as InstructionHandler, Mode::NonSecure),
+        ("MOV", mov_handler as InstructionHandler, Mode::NonSecure),
+        ("MVN", mvn_handler as InstructionHandler, Mode::NonSecure),
+        ("LDR", ldr_handler as InstructionHandler, Mode::NonSecure),
+        ("STR", str_handler as InstructionHandler, Mode::NonSecure),
+        ("VADD", vadd_handler as InstructionHandler, Mode::NonSecure),
+        ("VSUB", vsub_handler as InstructionHandler, Mode::NonSecure),
+        ("FADD", fadd_handler as InstructionHandler, Mode::NonSecure),
+        ("FSUB", fsub_handler as InstructionHandler, Mode::NonSecure),
+        ("FMUL", fmul_handler as InstructionHandler, Mode::NonSecure),
+        ("VMOV", vmov_handler as InstructionHandler, Mode::NonSecure),
+        ("SADD", sadd_handler as InstructionHandler, Mode::NonSecure),
+        ("SSUB", ssub_handler as InstructionHandler, Mode::NonSecure),
+        ("LD1", ld1_handler as InstructionHandler, Mode::NonSecure),
+        ("ST1", st1_handler as InstructionHandler, Mode::NonSecure),
+        ("MATMUL", matmul_handler as InstructionHandler, Mode::NonSecure),
+        ("MMV", mmv_handler as InstructionHandler, Mode::NonSecure),
+        ("encrypt", encrypt_handler as InstructionHandler, Mode::Secure),
+        ("decrypt", decrypt_handler as InstructionHandler, Mode::Secure),
+        ("init_trustzone", init_trustzone as InstructionHandler, Mode::Secure),
+        ("setup_virtualization", setup_virtualization as InstructionHandler, Mode::Secure),
+        ("init_kernel", init_kernel as InstructionHandler, Mode::Secure),
+        ("start_user_apps", start_user_apps as InstructionHandler, Mode::Secure),
     ];
 
     for &(inst, handler, mode) in &instructions {
